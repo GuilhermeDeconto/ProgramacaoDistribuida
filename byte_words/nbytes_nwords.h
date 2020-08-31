@@ -14,19 +14,25 @@ extern "C" {
 #endif
 
 
-#define NBYTESNWORDSPROG 0x20000000
+#define NBYTESNWORDSPROG 0x20000001
 #define NBYTESNWORDSVERS 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define NBYTES 1
 extern  int * nbytes_1(char **, CLIENT *);
 extern  int * nbytes_1_svc(char **, struct svc_req *);
+#define NWORDS 2
+extern  int * nwords_1(char **, CLIENT *);
+extern  int * nwords_1_svc(char **, struct svc_req *);
 extern int nbytesnwordsprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define NBYTES 1
 extern  int * nbytes_1();
 extern  int * nbytes_1_svc();
+#define NWORDS 2
+extern  int * nwords_1();
+extern  int * nwords_1_svc();
 extern int nbytesnwordsprog_1_freeresult ();
 #endif /* K&R C */
 

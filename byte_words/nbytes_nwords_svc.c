@@ -21,6 +21,7 @@ nbytesnwordsprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		char *nbytes_1_arg;
+		char *nwords_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -35,6 +36,12 @@ nbytesnwordsprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) nbytes_1_svc;
+		break;
+
+	case NWORDS:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) nwords_1_svc;
 		break;
 
 	default:

@@ -17,16 +17,25 @@ int nbytes(CLIENT *clnt, char *val) {
 	return (*result);
 }
 
+int nwords(CLIENT *clnt, char *val) {
+	int *result;
+
+	/* chama a função remota */
+	result = nwords_1(&val, clnt);
+
+	if (result == NULL) {
+		printf ("Problemas ao chamar a função remota\n");
+		
+		return -1.0;
+	}
+
+	return (*result);
+}
+
 int main(int argc, char *argv[])
 {
 	CLIENT *clnt;
 	int pi;
-
-	if (argc != 3) {
-		fprintf(stderr,"Uso:\n%s <nome_do_servidor> <numero>\n\n",argv[0]);
-		
-		return 1;
-	}
 	
 	/* cria uma struct CLIENT que referencia uma interface RPC */
 	clnt = clnt_create(argv[1], NBYTESNWORDSPROG, NBYTESNWORDSVERS, "udp");
@@ -39,9 +48,25 @@ int main(int argc, char *argv[])
 	}
 	
 	/* executa os procedimentos remotos */
-	pi = nbytes(clnt, argv[2]);
+	
 
-	printf("%i", pi);
+	int j = 0;
+    char *cmdstring;
+	cmdstring = malloc(200);
+    cmdstring[0] = '\0';
+
+    for (j=2; j<argc; j++) {
+        strcat(cmdstring, argv[j]);
+        if (argc > j+1)
+            strcat(cmdstring, " ");
+    }
+
+    printf("cmdstring: %s\n", cmdstring);
+	pi = nbytes(clnt, cmdstring);
+	int words = nwords(clnt, cmdstring);
+
+	printf("\nA string possui %i bytes\n", pi);
+	printf("A string tem %i palavras\n", words);
 	
 	return 0;
 }
